@@ -4,13 +4,14 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,28 +23,27 @@ import lombok.Data;
 @Data
 @Builder
 @Entity
-public class Account {
+public class Resource {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
-
-    private String password;
+    @ManyToOne
+    @Column(name = "account_id")
+    private Account account;
 
     @Column(length = 16)
-    private String nickname;
+    private String key;
+
+    private String type;
+
+    @Lob
+    private String data;
 
     @OneToMany
     private List<Comment> comments;
 
-    @OneToMany
-    private List<Resource> resources;
-
     @CreatedDate
     private Timestamp created_at;
-
-    @LastModifiedDate
-    private Timestamp updated_at;
 }
