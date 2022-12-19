@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -28,16 +29,18 @@ public class Comment {
     private Long id;
 
     @ManyToOne
-    @Column(name = "account_id")
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @ManyToOne
-    @Column(name = "resource_id")
+    @JoinColumn(name = "resource_id", nullable = false)
     private Resource resource;
 
     @Lob
-    private String text;
+    @Column(nullable = false)
+    private String comment;
 
     @CreatedDate
     private Timestamp created_at;
+
 }

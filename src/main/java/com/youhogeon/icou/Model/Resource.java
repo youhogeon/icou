@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -30,20 +31,23 @@ public class Resource {
     private Long id;
 
     @ManyToOne
-    @Column(name = "account_id")
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @Column(length = 16)
-    private String key;
+    @Column(length = 16, nullable = false)
+    private String token;
 
+    @Column(nullable = false)
     private String type;
 
     @Lob
+    @Column(nullable = false)
     private String data;
 
-    @OneToMany
+    @OneToMany(mappedBy = "resource")
     private List<Comment> comments;
 
     @CreatedDate
     private Timestamp created_at;
+
 }

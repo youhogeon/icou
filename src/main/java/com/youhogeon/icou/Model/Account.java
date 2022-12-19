@@ -28,17 +28,19 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
-    @Column(length = 16)
+    @Column(length = 16, nullable = false)
     private String nickname;
 
-    @OneToMany
+    @OneToMany(mappedBy = "account")
     private List<Comment> comments;
 
-    @OneToMany
+    @OneToMany(mappedBy = "account")
     private List<Resource> resources;
 
     @CreatedDate
@@ -46,4 +48,5 @@ public class Account {
 
     @LastModifiedDate
     private Timestamp updated_at;
+
 }
