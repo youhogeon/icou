@@ -42,7 +42,10 @@ public class GeneralExceptionHandler {
     public ResponseEntity<?> handleAuthenticationException(Exception e) {
         e.printStackTrace();
 
-        return error(HttpStatus.UNAUTHORIZED, "잘못된 인증 정보입니다.");
+        return error(
+            HttpStatus.UNAUTHORIZED,
+            e.getMessage()
+        );
     }
 
     @ExceptionHandler({

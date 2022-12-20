@@ -2,6 +2,8 @@ package com.youhogeon.icou.service;
 
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -49,8 +51,13 @@ public class AccountService {
     @Transactional
     public JwtTokenResponseDto signIn(AccountSigninRequestDto memberRequestDto) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberRequestDto.getEmail(), memberRequestDto.getPassword());
-        
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        Authentication authentication;
+        try {
+            authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        } catch (BadCredentialsException e) {
+            throw new IllegalArgumentException("잘못된 이메일 또는 비밀번호입니다.");
+        }
 
         JwtTokenResponseDto tokenDto = tokenProvider.generateJwtTokenResponseDto(authentication);
 
@@ -69,7 +76,7 @@ public class AccountService {
         Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
 
         RefreshToken refreshToken = refreshTokenRepository.findByKey(Long.parseLong(authentication.getName()))
-            .orElseThrow(() -> new InvalidTokenException("로그아웃 된 사용자입니다."));
+            .orElseThrow(() -> new InvalidTokenException("잘못된 갱신 토큰입니다."));
 
         if (!refreshToken.getValue().equals(requestDto.getRefreshToken())) {
             throw new InvalidTokenException("잘못된 갱신 토큰입니다.");
@@ -81,6 +88,18 @@ public class AccountService {
         refreshTokenRepository.save(newRefreshToken);
 
         return tokenDto;
+    }
+
+    public String signOut() {
+        Long currentAccountId = SecurityUtil.getCurrentAccountId();
+        
+        try{
+            refreshTokenRepository.deleteById(currentAccountId);
+        } catch (EmptyResultDataAccessException e) {
+
+        }
+
+        return null;
     }
 
 }

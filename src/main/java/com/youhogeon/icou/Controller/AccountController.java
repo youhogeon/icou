@@ -40,4 +40,9 @@ public class AccountController {
         return ok(accountService.reissue(requestDto));
     }
 
+    @PostMapping("/signout")
+    public Response<?> signOut() {
+        return ok(accountService.signOut());
+    }
+
 }
