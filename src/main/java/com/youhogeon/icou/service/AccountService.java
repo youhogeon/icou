@@ -10,13 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.youhogeon.icou.dto.AccountCreateRequestDto;
+import com.youhogeon.icou.dto.AccountJwtTokenReissueRequestDto;
 import com.youhogeon.icou.dto.AccountSigninRequestDto;
 import com.youhogeon.icou.dto.JwtTokenResponseDto;
+import com.youhogeon.icou.error.InvalidTokenException;
 import com.youhogeon.icou.model.Account;
 import com.youhogeon.icou.model.RefreshToken;
 import com.youhogeon.icou.repository.AccountRepository;
 import com.youhogeon.icou.repository.RefreshTokenRepository;
 import com.youhogeon.icou.security.JwtTokenProvider;
+import com.youhogeon.icou.util.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 
@@ -43,7 +46,8 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public JwtTokenResponseDto signin(AccountSigninRequestDto memberRequestDto) {
+    @Transactional
+    public JwtTokenResponseDto signIn(AccountSigninRequestDto memberRequestDto) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberRequestDto.getEmail(), memberRequestDto.getPassword());
         
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -51,11 +55,30 @@ public class AccountService {
         JwtTokenResponseDto tokenDto = tokenProvider.generateJwtTokenResponseDto(authentication);
 
         RefreshToken refreshToken = RefreshToken.builder()
-                .key(authentication.getName())
+                .key(Long.parseLong(authentication.getName()))
                 .value(tokenDto.getRefreshToken())
                 .build();
 
         refreshTokenRepository.save(refreshToken);
+
+        return tokenDto;
+    }
+
+    @Transactional
+    public JwtTokenResponseDto reissue(AccountJwtTokenReissueRequestDto requestDto) {
+        Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
+
+        RefreshToken refreshToken = refreshTokenRepository.findByKey(Long.parseLong(authentication.getName()))
+            .orElseThrow(() -> new InvalidTokenException("로그아웃 된 사용자입니다."));
+
+        if (!refreshToken.getValue().equals(requestDto.getRefreshToken())) {
+            throw new InvalidTokenException("잘못된 갱신 토큰입니다.");
+        }
+
+        JwtTokenResponseDto tokenDto = tokenProvider.generateJwtTokenResponseDto(authentication);
+
+        RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
+        refreshTokenRepository.save(newRefreshToken);
 
         return tokenDto;
     }

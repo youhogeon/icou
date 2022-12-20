@@ -8,6 +8,6 @@ import com.youhogeon.icou.model.RefreshToken;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
 
-    Optional<RefreshToken> findByKey(String key);
+    Optional<RefreshToken> findByKey(Long key);
 
 }

@@ -13,5 +13,6 @@ public class JwtTokenResponseDto {
     private String accessToken;
     private String refreshToken;
     private Long accessTokenExpiresIn;
+    private Long refreshTokenExpiresIn;
 
 }

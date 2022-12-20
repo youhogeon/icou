@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 
 import com.youhogeon.icou.dto.AccountCreateRequestDto;
+import com.youhogeon.icou.dto.AccountJwtTokenReissueRequestDto;
 import com.youhogeon.icou.dto.AccountSigninRequestDto;
 import com.youhogeon.icou.dto.JwtTokenResponseDto;
 import com.youhogeon.icou.service.AccountService;
@@ -30,9 +31,13 @@ public class AccountController {
     }
 
     @PostMapping("/signin")
-    public Response<JwtTokenResponseDto> signin(@Validated AccountSigninRequestDto memberRequestDto) {
-        return ok(accountService.signin(memberRequestDto));
+    public Response<?> signIn(@Validated AccountSigninRequestDto memberRequestDto) {
+        return ok(accountService.signIn(memberRequestDto));
     }
 
+    @PostMapping("/reissue")
+    public Response<?> reissue(@Validated AccountJwtTokenReissueRequestDto requestDto) {
+        return ok(accountService.reissue(requestDto));
+    }
 
 }
