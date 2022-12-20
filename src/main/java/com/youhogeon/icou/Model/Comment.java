@@ -1,4 +1,4 @@
-package com.youhogeon.icou.Model;
+package com.youhogeon.icou.model;
 
 import java.sql.Timestamp;
 
@@ -41,6 +41,6 @@ public class Comment {
     private String comment;
 
     @CreatedDate
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
 }

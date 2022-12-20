@@ -1,10 +1,12 @@
-package com.youhogeon.icou.Model;
+package com.youhogeon.icou.model;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+
+import com.youhogeon.icou.dto.AccountCreateRequestDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,9 +46,16 @@ public class Account {
     private List<Resource> resources;
 
     @CreatedDate
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     @LastModifiedDate
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
 
+    public static Account from(AccountCreateRequestDto accountCreateRequestDto) {
+        return Account.builder()
+            .email(accountCreateRequestDto.getEmail())
+            .password(accountCreateRequestDto.getPassword())
+            .nickname(accountCreateRequestDto.getNickname())
+            .build();
+    }
 }
