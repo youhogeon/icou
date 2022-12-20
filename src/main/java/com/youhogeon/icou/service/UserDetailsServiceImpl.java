@@ -1,6 +1,7 @@
 package com.youhogeon.icou.service;
 
 import com.youhogeon.icou.model.Account;
+import com.youhogeon.icou.model.Role;
 import com.youhogeon.icou.repository.AccountRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -32,14 +33,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return createUserDetails(accounts.get(0));
     }
 
-    // DB 에 User 값이 존재한다면 UserDetails 객체로 만들어서 리턴
-    private UserDetails createUserDetails(Account member) {
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("User");
+    private UserDetails createUserDetails(Account account) {
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(Role.User.toString());
 
         return new User(
-                String.valueOf(member.getId()),
-                member.getPassword(),
-                Collections.singleton(grantedAuthority)
+            String.valueOf(account.getId()),
+            account.getPassword(),
+            Collections.singleton(grantedAuthority)
         );
     }
 }

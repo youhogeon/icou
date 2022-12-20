@@ -1,27 +1,28 @@
 package com.youhogeon.icou.util;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public class ResponseUtil {
 
-    public static <T> Response<T> success(T response) {
+    public static <T> Response<T> ok(T response) {
         return new Response<>(HttpStatus.OK, response);
     }
 
-    public static Response<?> success() {
+    public static Response<?> ok() {
         return new Response<>(HttpStatus.OK, null);
     }
 
-    public static Response<String> error(HttpStatus status, Throwable throwable) {
-        return new Response<>(status, throwable.toString());
+    public static ResponseEntity<Response<String>> error(HttpStatus status, Throwable throwable) {
+        return error(status, throwable.toString());
     }
 
-    public static Response<String> error(HttpStatus status, String message) {
-        return new Response<>(status, message);
+    public static ResponseEntity<Response<String>> error(HttpStatus status, String message) {
+        return new ResponseEntity<>(new Response<>(status, message), status);
     }
 
-    public static Response<?> error(HttpStatus status) {
-        return new Response<>(status, null);
+    public static ResponseEntity<Response<String>> error(HttpStatus status) {
+        return error(status, status.getReasonPhrase());
     }
 
     public static class Response<T> {

@@ -13,7 +13,7 @@ import com.youhogeon.icou.dto.JwtTokenResponseDto;
 import com.youhogeon.icou.service.AccountService;
 import com.youhogeon.icou.util.ResponseUtil.Response;
 
-import static com.youhogeon.icou.util.ResponseUtil.success;
+import static com.youhogeon.icou.util.ResponseUtil.ok;
 
 @RestController
 @AllArgsConstructor
@@ -26,12 +26,12 @@ public class AccountController {
     public Response<?> createAccount(@Validated AccountCreateRequestDto accountCreateRequestDto) {
         accountService.create(accountCreateRequestDto);
 
-        return success();
+        return ok();
     }
 
     @PostMapping("/signin")
     public Response<JwtTokenResponseDto> signin(@Validated AccountSigninRequestDto memberRequestDto) {
-        return success(accountService.signin(memberRequestDto));
+        return ok(accountService.signin(memberRequestDto));
     }
 
 

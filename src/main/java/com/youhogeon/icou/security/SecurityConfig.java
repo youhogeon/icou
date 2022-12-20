@@ -2,19 +2,17 @@ package com.youhogeon.icou.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -27,29 +25,23 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // Disable csrf to use token
-        http.csrf().disable();
+        http.csrf().disable()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-        http
+            .and()
             .authorizeHttpRequests()
             .requestMatchers("/auth/**").permitAll()
-            .anyRequest().authenticated();
+            .anyRequest().authenticated()
 
-        http.sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        http.exceptionHandling()
+            .and()
+            .exceptionHandling()
             .accessDeniedHandler(jwtAccessDeniedHandler)
-            .authenticationEntryPoint(jwtAuthenticationEntryPoint);
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
 
-        // Apply JWT
-        http.apply(new JwtSecurityConfig(jwtTokenProvider));
+            .and()
+            .apply(new JwtSecurityConfig(jwtTokenProvider));
 
         return http.build();
     }

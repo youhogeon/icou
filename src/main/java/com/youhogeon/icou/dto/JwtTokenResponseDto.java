@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class JwtTokenResponseDto {
-    
+
     private String grantType;
     private String accessToken;
     private String refreshToken;

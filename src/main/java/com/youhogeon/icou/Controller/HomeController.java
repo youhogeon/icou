@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.youhogeon.icou.repository.AccountRepository;
+import com.youhogeon.icou.util.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 
@@ -20,7 +21,7 @@ public class HomeController {
 
     @GetMapping("/status")
     public String status() {
-        return "There are " + accountRepository.count() + " members in the database.";
+        return "There are " + accountRepository.count() + " members in the database. And your id is " + SecurityUtil.getCurrentAccountId();
     }
     
 }
