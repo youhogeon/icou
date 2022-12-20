@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 
 import com.youhogeon.icou.dto.AccountCreateRequestDto;
+import com.youhogeon.icou.dto.AccountSigninRequestDto;
+import com.youhogeon.icou.dto.JwtTokenResponseDto;
 import com.youhogeon.icou.service.AccountService;
 import com.youhogeon.icou.util.ResponseUtil.Response;
 
@@ -15,16 +17,22 @@ import static com.youhogeon.icou.util.ResponseUtil.success;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/auth")
 public class AccountController {
 
     private final AccountService accountService;
     
-    @PostMapping("")
+    @PostMapping("/signup")
     public Response<?> createAccount(@Validated AccountCreateRequestDto accountCreateRequestDto) {
         accountService.create(accountCreateRequestDto);
 
         return success();
     }
+
+    @PostMapping("/signin")
+    public Response<JwtTokenResponseDto> signin(@Validated AccountSigninRequestDto memberRequestDto) {
+        return success(accountService.signin(memberRequestDto));
+    }
+
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.youhogeon.icou.dto.AccountCreateRequestDto;
 
@@ -51,10 +52,10 @@ public class Account {
     @LastModifiedDate
     private Timestamp updatedAt;
 
-    public static Account from(AccountCreateRequestDto accountCreateRequestDto) {
+    public static Account from(AccountCreateRequestDto accountCreateRequestDto, PasswordEncoder passwordEncoder) {
         return Account.builder()
             .email(accountCreateRequestDto.getEmail())
-            .password(accountCreateRequestDto.getPassword())
+            .password(passwordEncoder.encode(accountCreateRequestDto.getPassword()))
             .nickname(accountCreateRequestDto.getNickname())
             .build();
     }
