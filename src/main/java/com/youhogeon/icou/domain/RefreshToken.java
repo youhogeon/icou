@@ -1,4 +1,4 @@
-package com.youhogeon.icou.model;
+package com.youhogeon.icou.domain;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -28,17 +28,17 @@ public class GeneralExceptionHandler {
         return error(HttpStatus.NOT_FOUND, "API를 찾을 수 없습니다.");
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
+    @ExceptionHandler({
+        InsufficientAuthenticationException.class,
+        UnauthorizedException.class
+    })
     public ResponseEntity<?> handleUnauthorizedException(Exception e) {
         e.printStackTrace();
 
         return error(HttpStatus.FORBIDDEN, "권한이 없습니다.");
     }
 
-    @ExceptionHandler({
-        InvalidTokenException.class,
-        InsufficientAuthenticationException.class
-    })
+    @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<?> handleAuthenticationException(Exception e) {
         e.printStackTrace();
 

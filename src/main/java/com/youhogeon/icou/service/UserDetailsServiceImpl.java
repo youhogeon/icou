@@ -1,7 +1,7 @@
 package com.youhogeon.icou.service;
 
-import com.youhogeon.icou.model.Account;
-import com.youhogeon.icou.model.Role;
+import com.youhogeon.icou.domain.Account;
+import com.youhogeon.icou.domain.Role;
 import com.youhogeon.icou.repository.AccountRepository;
 
 import lombok.RequiredArgsConstructor;

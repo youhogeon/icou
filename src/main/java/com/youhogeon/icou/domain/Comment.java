@@ -1,4 +1,4 @@
-package com.youhogeon.icou.model;
+package com.youhogeon.icou.domain;
 
 import java.sql.Timestamp;
 
