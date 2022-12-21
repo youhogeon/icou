@@ -19,9 +19,4 @@ public class HomeController {
         return "Hello, World!";
     }
 
-    @GetMapping("/status")
-    public String status() {
-        return "There are " + accountRepository.count() + " members in the database. And your id is " + SecurityUtil.getCurrentAccountId();
-    }
-    
 }

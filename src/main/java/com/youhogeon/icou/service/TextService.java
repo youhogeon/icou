@@ -58,11 +58,9 @@ public class TextService extends ResourceService {
     }
 
     public TextResponseDto get(String token) {
-        Optional<Resource> findByToken = resourceRepository.findByToken(token);
-
-        if (findByToken.isEmpty()) throw new BusinessException(ErrorCode.RESOURCE_NOT_FOUND);
-
-        Resource resource = findByToken.get();
+        Resource resource = resourceRepository.findByToken(token).orElseThrow(
+            () -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND)
+        );
 
         long expiredAfterSeconds = (resource.getExpiredAt().getTime() - (new Date()).getTime()) / 1000;
 
