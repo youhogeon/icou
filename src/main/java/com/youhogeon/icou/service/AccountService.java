@@ -92,16 +92,14 @@ public class AccountService {
         return tokenDto;
     }
 
-    public String signOut() {
+    public void signOut() {
         Long currentAccountId = SecurityUtil.getCurrentAccountId();
         
         try{
             refreshTokenRepository.deleteById(currentAccountId);
         } catch (EmptyResultDataAccessException e) {
-
+            //DO NOTHING
         }
-
-        return null;
     }
 
 }

@@ -1,12 +1,13 @@
 package com.youhogeon.icou.dto;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
 @Builder
+@Getter
 public class ErrorResponseDto {
 
+    private int status;
     private String code;
     private String message;
 

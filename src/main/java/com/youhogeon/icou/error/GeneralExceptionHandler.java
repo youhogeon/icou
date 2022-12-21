@@ -3,6 +3,7 @@ package com.youhogeon.icou.error;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeException;
@@ -58,6 +59,7 @@ public class GeneralExceptionHandler {
     }
 
     @ExceptionHandler({
+        HttpMessageNotReadableException.class,
         IllegalArgumentException.class,
         IllegalStateException.class,
     })
