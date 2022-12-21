@@ -33,7 +33,7 @@ public class Resource {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @Column(length = 16, nullable = false, unique = true)
@@ -49,6 +49,8 @@ public class Resource {
 
     @OneToMany(mappedBy = "resource")
     private List<Comment> comments;
+
+    private Timestamp expiredAt;
 
     @CreatedDate
     private Timestamp createdAt;

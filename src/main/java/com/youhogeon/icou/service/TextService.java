@@ -1,13 +1,20 @@
 package com.youhogeon.icou.service;
 
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.youhogeon.icou.domain.Account;
 import com.youhogeon.icou.domain.Resource;
 import com.youhogeon.icou.domain.ResourceType;
-import com.youhogeon.icou.dto.TextRequestDto;
+import com.youhogeon.icou.dto.TextCreateRequestDto;
+import com.youhogeon.icou.dto.TextCreateResponseDto;
 import com.youhogeon.icou.dto.TextResponseDto;
+import com.youhogeon.icou.error.BusinessException;
+import com.youhogeon.icou.error.ErrorCode;
 import com.youhogeon.icou.repository.AccountRepository;
 import com.youhogeon.icou.repository.ResourceRepository;
 import com.youhogeon.icou.util.SecurityUtil;
@@ -22,25 +29,48 @@ public class TextService extends ResourceService {
     private final ResourceRepository resourceRepository;
 
     @Transactional
-    public TextResponseDto create(TextRequestDto textRequestDto) {
-        Long currentAccountId = SecurityUtil.getCurrentAccountId();
-        Account account = accountRepository.findById(currentAccountId).get();
-
+    public TextCreateResponseDto create(TextCreateRequestDto textRequestDto) {
         String key = generateKey();
 
+        Timestamp expiredAt = new Timestamp((new Date()).getTime() + 1000 * 60 * 60 * 24 * 7);
+
         Resource resource = Resource.builder()
-            .account(account)
             .token(key)
             .type(ResourceType.TEXT)
             .data(textRequestDto.getText())
+            .expiredAt(expiredAt)
             .build();
+
+            
+        Long currentAccountId = SecurityUtil.getCurrentAccountId();
+        if (currentAccountId != null) {
+            Account account = accountRepository.findById(currentAccountId).get();
+            resource.setAccount(account);
+        }
 
         resourceRepository.save(resource);
         
-        TextResponseDto textResponseDto = TextResponseDto.builder()
+        TextCreateResponseDto textResponseDto = TextCreateResponseDto.builder()
             .key(key)
             .build();
         
+        return textResponseDto;
+    }
+
+    public TextResponseDto get(String token) {
+        Optional<Resource> findByToken = resourceRepository.findByToken(token);
+
+        if (findByToken.isEmpty()) throw new BusinessException(ErrorCode.RESOURCE_NOT_FOUND);
+
+        Resource resource = findByToken.get();
+
+        long expiredAfterSeconds = (resource.getExpiredAt().getTime() - (new Date()).getTime()) / 1000;
+
+        TextResponseDto textResponseDto = TextResponseDto.builder()
+            .text(resource.getData())
+            .expiredAfterSeconds(expiredAfterSeconds)
+            .build();
+
         return textResponseDto;
     }
     

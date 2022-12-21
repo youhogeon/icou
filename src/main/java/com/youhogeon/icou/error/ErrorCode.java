@@ -10,6 +10,8 @@ public enum ErrorCode {
     DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "이미 가입된 이메일입니다."),
     BAD_CREDENTIALS(HttpStatus.BAD_REQUEST, "잘못된 이메일 또는 비밀번호입니다."),
 
+    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 key입니다."),
+
     INVALID_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "잘못된 인증 토큰입니다."),
 
     ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST, "잘못된 요청 데이터입니다."),

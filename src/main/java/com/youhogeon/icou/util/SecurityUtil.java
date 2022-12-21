@@ -14,6 +14,8 @@ public class SecurityUtil {
             throw new InvalidTokenException();
         }
 
+        if (authentication.getName().equals("anonymousUser")) return null;
+
         return Long.parseLong(authentication.getName());
     }
 

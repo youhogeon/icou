@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class TextRequestDto {
+public class TextCreateRequestDto {
     
     @NotBlank(message = "text는 비어있을 수 없습니다.")
     private String text;

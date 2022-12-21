@@ -42,6 +42,7 @@ public class SecurityConfig {
             .requestMatchers("/auth/signin").permitAll()
             .requestMatchers("/auth/signup").permitAll()
             .requestMatchers("/auth/reissue").permitAll()
+            .requestMatchers("/resources/**").permitAll()
             .anyRequest().authenticated()
 
             .and()

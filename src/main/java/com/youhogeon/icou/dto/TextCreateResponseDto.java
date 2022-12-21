@@ -5,9 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class TextResponseDto {
+public class TextCreateResponseDto {
 
-    private String text;
-    private long expiredAfterSeconds;
+    private String key;
 
 }
