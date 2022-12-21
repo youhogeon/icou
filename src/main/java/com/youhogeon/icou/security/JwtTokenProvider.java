@@ -8,6 +8,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,7 @@ import java.security.Key;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class JwtTokenProvider {
 
@@ -104,11 +107,17 @@ public class JwtTokenProvider {
             claims = parseClaims(accessToken);
             validateAccount(Long.parseLong(claims.getSubject()));
 
-        } catch (SecurityException | MalformedJwtException e) { //서명 불일치
+        } catch (SecurityException | MalformedJwtException e) {
+            log.info("잘못된 JWT 서명입니다.");
+
             throw new InvalidTokenException();
         } catch (ExpiredJwtException e) {
+            log.info("만료된 JWT 토큰입니다.");
+
             throw new InvalidTokenException();
         } catch (UnsupportedJwtException | IllegalArgumentException e) {
+            log.info("잘못된 JWT 토큰입니다.");
+
             throw new InvalidTokenException();
         }
 
@@ -121,6 +130,8 @@ public class JwtTokenProvider {
 
     private void validateAccount(Long accountId) {
         if (!accountRepository.existsById(accountId)) {
+            log.error("존재하지 않는 사용자의 JWT 토큰입니다.");
+
             throw new InvalidTokenException();
         }
     }

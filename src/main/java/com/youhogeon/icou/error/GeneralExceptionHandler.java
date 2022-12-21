@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import lombok.extern.slf4j.Slf4j;
+
 import static com.youhogeon.icou.util.ResponseUtil.error;
 
+@Slf4j
 @RestControllerAdvice
 public class GeneralExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<?> handleBusinessException(BusinessException e) {
-        e.printStackTrace();
+        log.info("BusinessException: {}", e.getMessage());
 
         return error(e.getErrorCode());
     }
@@ -31,7 +34,7 @@ public class GeneralExceptionHandler {
         NotFoundException.class,
     })
     public ResponseEntity<?> handleNotFoundException(Exception e) {
-        e.printStackTrace();
+        log.info("Not Found Exception: {}", e.getMessage());
 
         return error(ErrorCode.NOT_FOUND);
     }
@@ -41,7 +44,7 @@ public class GeneralExceptionHandler {
         UnauthorizedException.class,
     })
     public ResponseEntity<?> handleUnauthorizedException(Exception e) {
-        e.printStackTrace();
+        log.info("Authrization Exception: {}", e.getMessage());
 
         return error(ErrorCode.INVALID_JWT_TOKEN);
     }
@@ -50,7 +53,7 @@ public class GeneralExceptionHandler {
         AccessDeniedException.class,
     })
     public ResponseEntity<?> handleForbiddenException(Exception e) {
-        e.printStackTrace();
+        log.info("Access Denied Exception: {}", e.getMessage());
 
         return error(ErrorCode.FORBIDDEN);
     }
@@ -60,7 +63,7 @@ public class GeneralExceptionHandler {
         MethodArgumentNotValidException.class,
     })
     public ResponseEntity<?> handleBindException(BindException e) {
-        e.printStackTrace();
+        log.info("Invalid Argument Exception: {}", e.getMessage());
 
         return error(
             HttpStatus.BAD_REQUEST, 
@@ -74,7 +77,7 @@ public class GeneralExceptionHandler {
         IllegalStateException.class,
     })
     public ResponseEntity<?> handleIllegalArgumentException(Exception e) {
-        e.printStackTrace();
+        log.info("Illegal Argument Exception: {}", e.getMessage());
 
         return error(ErrorCode.ILLEGAL_ARGUMENT);
     }
@@ -83,21 +86,21 @@ public class GeneralExceptionHandler {
         HttpRequestMethodNotSupportedException.class
     })
     public ResponseEntity<?> handleBadRequestException(Exception e) {
-        e.printStackTrace();
+        log.info("Method Exception: {}", e.getMessage());
 
         return error(ErrorCode.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(HttpMediaTypeException.class)
     public ResponseEntity<?> handleHttpMediaTypeException(Exception e) {
-        e.printStackTrace();
+        log.info("Media Type Exception: {}", e.getMessage());
 
         return error(ErrorCode.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception e) {
-        e.printStackTrace();
+        log.error("Unknown Exception: {}", e.getMessage());
 
         return error(ErrorCode.INTERNAL_SERVER_ERROR);
     }
