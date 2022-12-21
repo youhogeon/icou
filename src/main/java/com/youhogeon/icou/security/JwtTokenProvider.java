@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import com.youhogeon.icou.dto.JwtTokenResponseDto;
 import com.youhogeon.icou.error.InvalidTokenException;
+import com.youhogeon.icou.repository.AccountRepository;
 
 import java.security.Key;
 import java.util.*;
@@ -35,16 +36,20 @@ public class JwtTokenProvider {
 
     private final Key key;
 
+    private final AccountRepository accountRepository;
+
     public JwtTokenProvider(
         @Value("${jwt.secret}") String secretKey,
         @Value("${jwt.access-token-expire-time:#{1000 * 60 * 30}}") long accessTokenExpireTime,
-        @Value("${jwt.refresh-token-expire-time:#{1000 * 60 * 30}}") long refreshTokenExpireTime
+        @Value("${jwt.refresh-token-expire-time:#{1000 * 60 * 30}}") long refreshTokenExpireTime,
+        AccountRepository accountRepository
     ) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
 
         this.ACCESS_TOKEN_EXPIRE_TIME = accessTokenExpireTime;
         this.REFRESH_TOKEN_EXPIRE_TIME = refreshTokenExpireTime;
+        this.accountRepository = accountRepository;
     }
 
     public JwtTokenResponseDto generateJwtTokenResponseDto(Authentication authentication) {
@@ -97,6 +102,7 @@ public class JwtTokenProvider {
 
         try {
             claims = parseClaims(accessToken);
+            validateAccount(Long.parseLong(claims.getSubject()));
 
         } catch (SecurityException | MalformedJwtException e) { //서명 불일치
             throw new InvalidTokenException();
@@ -111,6 +117,12 @@ public class JwtTokenProvider {
         }
 
         return claims;
+    }
+
+    private void validateAccount(Long accountId) {
+        if (!accountRepository.existsById(accountId)) {
+            throw new InvalidTokenException();
+        }
     }
 
     private Claims parseClaims(String accessToken) {

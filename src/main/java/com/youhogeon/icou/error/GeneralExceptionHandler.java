@@ -4,6 +4,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeException;
@@ -28,7 +29,6 @@ public class GeneralExceptionHandler {
     @ExceptionHandler({
         NoHandlerFoundException.class,
         NotFoundException.class,
-        HttpRequestMethodNotSupportedException.class
     })
     public ResponseEntity<?> handleNotFoundException(Exception e) {
         e.printStackTrace();
@@ -38,16 +38,26 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler({
         InsufficientAuthenticationException.class,
-        UnauthorizedException.class
+        UnauthorizedException.class,
     })
     public ResponseEntity<?> handleUnauthorizedException(Exception e) {
+        e.printStackTrace();
+
+        return error(ErrorCode.INVALID_JWT_TOKEN);
+    }
+
+    @ExceptionHandler({
+        AccessDeniedException.class,
+    })
+    public ResponseEntity<?> handleForbiddenException(Exception e) {
         e.printStackTrace();
 
         return error(ErrorCode.FORBIDDEN);
     }
 
     @ExceptionHandler({
-        BindException.class
+        BindException.class,
+        MethodArgumentNotValidException.class,
     })
     public ResponseEntity<?> handleBindException(BindException e) {
         e.printStackTrace();
@@ -70,7 +80,7 @@ public class GeneralExceptionHandler {
     }
 
     @ExceptionHandler({
-        MethodArgumentNotValidException.class
+        HttpRequestMethodNotSupportedException.class
     })
     public ResponseEntity<?> handleBadRequestException(Exception e) {
         e.printStackTrace();

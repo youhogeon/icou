@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import com.youhogeon.icou.dto.AccountCreateRequestDto;
 import com.youhogeon.icou.dto.AccountJwtTokenReissueRequestDto;
 import com.youhogeon.icou.dto.AccountSigninRequestDto;
+import com.youhogeon.icou.dto.JwtTokenResponseDto;
 import com.youhogeon.icou.dto.ResponseDto;
 import com.youhogeon.icou.service.AccountService;
 
@@ -31,13 +32,17 @@ public class AccountController {
     }
 
     @PostMapping("/signin")
-    public ResponseDto<?> signIn(@Validated @RequestBody AccountSigninRequestDto memberRequestDto) {
-        return ok(accountService.signIn(memberRequestDto));
+    public ResponseDto<?> signIn(@Validated @RequestBody AccountSigninRequestDto accountSigninRequestDto) {
+        JwtTokenResponseDto jwtTokenResponseDto = accountService.signIn(accountSigninRequestDto);
+
+        return ok(jwtTokenResponseDto);
     }
 
     @PostMapping("/reissue")
     public ResponseDto<?> reissue(@Validated @RequestBody AccountJwtTokenReissueRequestDto requestDto) {
-        return ok(accountService.reissue(requestDto));
+        JwtTokenResponseDto jwtTokenResponseDto = accountService.reissue(requestDto);
+
+        return ok(jwtTokenResponseDto);
     }
 
     @PostMapping("/signout")
