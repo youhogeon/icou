@@ -1,11 +1,17 @@
 package com.youhogeon.icou.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.youhogeon.icou.domain.Account;
 import com.youhogeon.icou.domain.Comment;
 import com.youhogeon.icou.domain.Resource;
 import com.youhogeon.icou.dto.CommentCreateRequestDto;
+import com.youhogeon.icou.dto.CommentDto;
+import com.youhogeon.icou.dto.CommentResponseDto;
 import com.youhogeon.icou.error.BusinessException;
 import com.youhogeon.icou.error.ErrorCode;
 import com.youhogeon.icou.repository.AccountRepository;
@@ -23,6 +29,7 @@ public class CommentService {
     private final AccountRepository accountRepository;
     private final ResourceRepository resourceRepository;
 
+    @Transactional
     public void create(String token, CommentCreateRequestDto commentRequestDto) {
         Long currentAccountId = SecurityUtil.getCurrentAccountId();
         Account currentAccount = accountRepository.findById(currentAccountId).get();
@@ -38,6 +45,29 @@ public class CommentService {
             .build();
 
         commentRepository.save(comment);
+    }
+
+    @Transactional(readOnly = true)
+    public CommentResponseDto get(String token, int page) {
+        Resource resource = resourceRepository.findByToken(token).orElseThrow(
+            () -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND)
+        );
+
+        List<Comment> comments = resource.getComments();
+
+        List<CommentDto> commentDtos = comments.stream()
+            .map(comment -> CommentDto.builder()
+                .nickname(comment.getAccount().getNickname())
+                .comment(comment.getComment())
+                .createdAt(comment.getCreatedAt().toLocalDateTime())
+                .build()
+            ).collect(Collectors.toList());
+
+        CommentResponseDto commentResponseDto = CommentResponseDto.builder()
+            .comments(commentDtos)
+            .build();
+
+        return commentResponseDto;
     }
     
 }

@@ -1,14 +1,10 @@
 package com.youhogeon.icou.domain;
 
-import java.sql.Timestamp;
-
-import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
@@ -16,17 +12,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @Entity
-public class Comment {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EntityListeners(AuditingEntityListener.class)
+public class Comment extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
@@ -39,8 +34,5 @@ public class Comment {
     @Lob
     @Column(nullable = false)
     private String comment;
-
-    @CreatedDate
-    private Timestamp createdAt;
 
 }

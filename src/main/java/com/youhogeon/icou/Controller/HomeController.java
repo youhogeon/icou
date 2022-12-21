@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.youhogeon.icou.repository.AccountRepository;
-import com.youhogeon.icou.util.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 

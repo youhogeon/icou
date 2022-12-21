@@ -3,7 +3,6 @@ package com.youhogeon.icou.domain;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -11,25 +10,20 @@ import com.youhogeon.icou.dto.AccountCreateRequestDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @Entity
-public class Account {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Account extends BaseEntity {
 
     @Column(nullable = false)
     private String email;
@@ -45,9 +39,6 @@ public class Account {
 
     @OneToMany(mappedBy = "account")
     private List<Resource> resources;
-
-    @CreatedDate
-    private Timestamp createdAt;
 
     @LastModifiedDate
     private Timestamp updatedAt;

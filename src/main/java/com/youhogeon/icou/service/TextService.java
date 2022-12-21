@@ -2,7 +2,6 @@ package com.youhogeon.icou.service;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
