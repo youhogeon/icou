@@ -1,8 +1,9 @@
 package com.youhogeon.icou.service;
 
 import com.youhogeon.icou.domain.Account;
-import com.youhogeon.icou.domain.Role;
+import com.youhogeon.icou.error.InvalidTokenException;
 import com.youhogeon.icou.repository.AccountRepository;
+import com.youhogeon.icou.security.Role;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<Account> accounts = accountRepository.findByEmail(username);
 
-        if (accounts.isEmpty()) throw new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다.");
+        if (accounts.isEmpty()) throw new InvalidTokenException();
 
         return createUserDetails(accounts.get(0));
     }

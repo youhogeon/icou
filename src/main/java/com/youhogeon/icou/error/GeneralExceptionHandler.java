@@ -16,6 +16,13 @@ import static com.youhogeon.icou.util.ResponseUtil.error;
 
 @RestControllerAdvice
 public class GeneralExceptionHandler {
+
+    @ExceptionHandler(BusinessException.class)
+    protected ResponseEntity<?> handleBusinessException(BusinessException e) {
+        e.printStackTrace();
+
+        return error(e.getErrorCode());
+    }
     
     @ExceptionHandler({
         NoHandlerFoundException.class,
@@ -25,7 +32,7 @@ public class GeneralExceptionHandler {
     public ResponseEntity<?> handleNotFoundException(Exception e) {
         e.printStackTrace();
 
-        return error(HttpStatus.NOT_FOUND, "API를 찾을 수 없습니다.");
+        return error(ErrorCode.NOT_FOUND);
     }
 
     @ExceptionHandler({
@@ -35,17 +42,7 @@ public class GeneralExceptionHandler {
     public ResponseEntity<?> handleUnauthorizedException(Exception e) {
         e.printStackTrace();
 
-        return error(HttpStatus.FORBIDDEN, "권한이 없습니다.");
-    }
-
-    @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<?> handleAuthenticationException(Exception e) {
-        e.printStackTrace();
-
-        return error(
-            HttpStatus.UNAUTHORIZED,
-            e.getMessage()
-        );
+        return error(ErrorCode.FORBIDDEN);
     }
 
     @ExceptionHandler({
@@ -62,38 +59,35 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler({
         IllegalArgumentException.class,
+        IllegalStateException.class,
     })
     public ResponseEntity<?> handleIllegalArgumentException(Exception e) {
         e.printStackTrace();
 
-        return error(
-            HttpStatus.BAD_REQUEST, 
-            e.getMessage()
-        );
+        return error(ErrorCode.ILLEGAL_ARGUMENT);
     }
 
     @ExceptionHandler({
-        IllegalStateException.class,
         MethodArgumentNotValidException.class
     })
     public ResponseEntity<?> handleBadRequestException(Exception e) {
         e.printStackTrace();
 
-        return error(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
+        return error(ErrorCode.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(HttpMediaTypeException.class)
     public ResponseEntity<?> handleHttpMediaTypeException(Exception e) {
         e.printStackTrace();
 
-        return error(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "잘못된 요청입니다.");
+        return error(ErrorCode.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(Exception e) {
         e.printStackTrace();
 
-        return error(HttpStatus.INTERNAL_SERVER_ERROR, "알 수 없는 오류가 발생했습니다.");
+        return error(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 
 }

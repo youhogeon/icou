@@ -99,15 +99,15 @@ public class JwtTokenProvider {
             claims = parseClaims(accessToken);
 
         } catch (SecurityException | MalformedJwtException e) { //서명 불일치
-            throw new InvalidTokenException("잘못된 인증 토큰입니다.");
+            throw new InvalidTokenException();
         } catch (ExpiredJwtException e) {
-            throw new InvalidTokenException("만료된 인증 토큰입니다.");
+            throw new InvalidTokenException();
         } catch (UnsupportedJwtException | IllegalArgumentException e) {
-            throw new InvalidTokenException("잘못된 인증 토큰입니다.");
+            throw new InvalidTokenException();
         }
 
         if (claims.get(AUTHORITIES_KEY) == null) {
-            throw new InvalidTokenException("권한 정보가 없는 토큰입니다.");
+            throw new InvalidTokenException();
         }
 
         return claims;

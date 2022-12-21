@@ -17,6 +17,8 @@ import com.youhogeon.icou.dto.AccountCreateRequestDto;
 import com.youhogeon.icou.dto.AccountJwtTokenReissueRequestDto;
 import com.youhogeon.icou.dto.AccountSigninRequestDto;
 import com.youhogeon.icou.dto.JwtTokenResponseDto;
+import com.youhogeon.icou.error.BusinessException;
+import com.youhogeon.icou.error.ErrorCode;
 import com.youhogeon.icou.error.InvalidTokenException;
 import com.youhogeon.icou.repository.AccountRepository;
 import com.youhogeon.icou.repository.RefreshTokenRepository;
@@ -42,7 +44,7 @@ public class AccountService {
         List<Account> duplicatedEmail = accountRepository.findByEmail(account.getEmail());
 
         if (!duplicatedEmail.isEmpty()) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATED_EMAIL);
         }
 
         accountRepository.save(account);
@@ -56,7 +58,7 @@ public class AccountService {
         try {
             authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         } catch (BadCredentialsException e) {
-            throw new IllegalArgumentException("잘못된 이메일 또는 비밀번호입니다.");
+            throw new BusinessException(ErrorCode.BAD_CREDENTIALS);
         }
 
         JwtTokenResponseDto tokenDto = tokenProvider.generateJwtTokenResponseDto(authentication);
@@ -76,10 +78,10 @@ public class AccountService {
         Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
 
         RefreshToken refreshToken = refreshTokenRepository.findByKey(Long.parseLong(authentication.getName()))
-            .orElseThrow(() -> new InvalidTokenException("잘못된 갱신 토큰입니다."));
+            .orElseThrow(() -> new InvalidTokenException());
 
         if (!refreshToken.getValue().equals(requestDto.getRefreshToken())) {
-            throw new InvalidTokenException("잘못된 갱신 토큰입니다.");
+            throw new InvalidTokenException();
         }
 
         JwtTokenResponseDto tokenDto = tokenProvider.generateJwtTokenResponseDto(authentication);
