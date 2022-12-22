@@ -29,9 +29,22 @@ public class ResponseUtil {
         return new ResponseEntity<>(errorResponseDto, httpStatus);
     }
 
+    public static ResponseEntity<ErrorResponseDto> error(ErrorCode errorCode, String message) {
+        HttpStatus httpStatus = errorCode.getStatus();
+
+        ErrorResponseDto errorResponseDto = ErrorResponseDto.builder()
+                .status(httpStatus.value())
+                .code(errorCode.name())
+                .message(message)
+                .build();
+
+        return new ResponseEntity<>(errorResponseDto, httpStatus);
+    }
+
     public static ResponseEntity<ErrorResponseDto> error(HttpStatus httpStatus, String message) {
         ErrorResponseDto errorResponseDto = ErrorResponseDto.builder()
                 .status(httpStatus.value())
+                .code(httpStatus.name())
                 .message(message)
                 .build();
 

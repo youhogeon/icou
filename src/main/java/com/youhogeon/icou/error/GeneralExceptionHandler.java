@@ -66,7 +66,7 @@ public class GeneralExceptionHandler {
         log.info("Invalid Argument Exception: {}", e.getMessage());
 
         return error(
-            HttpStatus.BAD_REQUEST, 
+            ErrorCode.ILLEGAL_ARGUMENT, 
             e.getFieldErrors().get(0).getDefaultMessage()
         );
     }

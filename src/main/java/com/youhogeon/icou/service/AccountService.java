@@ -25,9 +25,9 @@ import com.youhogeon.icou.repository.RefreshTokenRepository;
 import com.youhogeon.icou.security.JwtTokenProvider;
 import com.youhogeon.icou.util.SecurityUtil;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AccountService {
 
