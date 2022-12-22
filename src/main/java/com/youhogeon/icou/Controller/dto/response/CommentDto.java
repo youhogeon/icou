@@ -1,12 +1,12 @@
-package com.youhogeon.icou.dto;
+package com.youhogeon.icou.controller.dto.response;
 
 import java.time.LocalDateTime;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 @Builder
-@Data
+@Getter
 public class CommentDto {
     
     private String nickname;

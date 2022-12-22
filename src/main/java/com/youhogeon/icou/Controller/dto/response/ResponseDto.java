@@ -1,4 +1,4 @@
-package com.youhogeon.icou.dto;
+package com.youhogeon.icou.controller.dto.response;
 
 import org.springframework.http.HttpStatus;
 

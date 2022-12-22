@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.youhogeon.icou.dto.CommentCreateRequestDto;
-import com.youhogeon.icou.dto.CommentResponseDto;
-import com.youhogeon.icou.dto.ResponseDto;
+import com.youhogeon.icou.controller.dto.request.CommentCreateRequestDto;
+import com.youhogeon.icou.controller.dto.response.CommentResponseDto;
+import com.youhogeon.icou.controller.dto.response.ResponseDto;
 import com.youhogeon.icou.service.CommentService;
 
 import lombok.RequiredArgsConstructor;

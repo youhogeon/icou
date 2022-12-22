@@ -6,12 +6,12 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.youhogeon.icou.controller.dto.request.CommentCreateRequestDto;
+import com.youhogeon.icou.controller.dto.response.CommentDto;
+import com.youhogeon.icou.controller.dto.response.CommentResponseDto;
 import com.youhogeon.icou.domain.Account;
 import com.youhogeon.icou.domain.Comment;
 import com.youhogeon.icou.domain.Resource;
-import com.youhogeon.icou.dto.CommentCreateRequestDto;
-import com.youhogeon.icou.dto.CommentDto;
-import com.youhogeon.icou.dto.CommentResponseDto;
 import com.youhogeon.icou.error.BusinessException;
 import com.youhogeon.icou.error.ErrorCode;
 import com.youhogeon.icou.repository.AccountRepository;

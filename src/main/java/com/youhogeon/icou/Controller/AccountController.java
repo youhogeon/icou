@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 
-import com.youhogeon.icou.dto.AccountCreateRequestDto;
-import com.youhogeon.icou.dto.AccountJwtTokenReissueRequestDto;
-import com.youhogeon.icou.dto.AccountSigninRequestDto;
-import com.youhogeon.icou.dto.JwtTokenResponseDto;
-import com.youhogeon.icou.dto.ResponseDto;
+import com.youhogeon.icou.controller.dto.request.AccountCreateRequestDto;
+import com.youhogeon.icou.controller.dto.request.AccountJwtTokenReissueRequestDto;
+import com.youhogeon.icou.controller.dto.request.AccountSigninRequestDto;
+import com.youhogeon.icou.controller.dto.response.JwtTokenResponseDto;
+import com.youhogeon.icou.controller.dto.response.ResponseDto;
 import com.youhogeon.icou.service.AccountService;
 
 import static com.youhogeon.icou.util.ResponseUtil.ok;

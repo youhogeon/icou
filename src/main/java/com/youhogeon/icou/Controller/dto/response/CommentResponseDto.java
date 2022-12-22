@@ -1,12 +1,12 @@
-package com.youhogeon.icou.dto;
+package com.youhogeon.icou.controller.dto.response;
 
 import java.util.List;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 @Builder
-@Data
+@Getter
 public class CommentResponseDto {
     
     private List<CommentDto> comments;

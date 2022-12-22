@@ -19,7 +19,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.youhogeon.icou.dto.JwtTokenResponseDto;
+import com.youhogeon.icou.controller.dto.response.JwtTokenResponseDto;
 import com.youhogeon.icou.error.InvalidTokenException;
 import com.youhogeon.icou.repository.AccountRepository;
 

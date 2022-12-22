@@ -1,12 +1,10 @@
-package com.youhogeon.icou.dto;
+package com.youhogeon.icou.controller.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
-@AllArgsConstructor
 public class JwtTokenResponseDto {
 
     private String grantType;

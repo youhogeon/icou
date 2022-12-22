@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.youhogeon.icou.dto.ResponseDto;
-import com.youhogeon.icou.dto.TextCreateRequestDto;
-import com.youhogeon.icou.dto.TextCreateResponseDto;
-import com.youhogeon.icou.dto.TextResponseDto;
+import com.youhogeon.icou.controller.dto.request.TextCreateRequestDto;
+import com.youhogeon.icou.controller.dto.response.ResponseDto;
+import com.youhogeon.icou.controller.dto.response.TextCreateResponseDto;
+import com.youhogeon.icou.controller.dto.response.TextResponseDto;
 import com.youhogeon.icou.service.TextService;
 
 import lombok.RequiredArgsConstructor;

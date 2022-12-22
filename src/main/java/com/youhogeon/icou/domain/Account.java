@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.youhogeon.icou.dto.AccountCreateRequestDto;
+import com.youhogeon.icou.controller.dto.request.AccountCreateRequestDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

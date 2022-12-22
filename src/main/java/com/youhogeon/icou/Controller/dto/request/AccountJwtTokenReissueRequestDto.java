@@ -1,11 +1,9 @@
-package com.youhogeon.icou.dto;
+package com.youhogeon.icou.controller.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class AccountJwtTokenReissueRequestDto {
     
     @NotNull

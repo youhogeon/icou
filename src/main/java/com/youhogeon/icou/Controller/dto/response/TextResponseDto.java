@@ -1,9 +1,9 @@
-package com.youhogeon.icou.dto;
+package com.youhogeon.icou.controller.dto.response;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class TextResponseDto {
 

@@ -3,8 +3,8 @@ package com.youhogeon.icou.util;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.youhogeon.icou.dto.ErrorResponseDto;
-import com.youhogeon.icou.dto.ResponseDto;
+import com.youhogeon.icou.controller.dto.response.ErrorResponseDto;
+import com.youhogeon.icou.controller.dto.response.ResponseDto;
 import com.youhogeon.icou.error.ErrorCode;
 
 public class ResponseUtil {

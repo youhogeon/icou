@@ -6,12 +6,12 @@ import java.util.Date;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.youhogeon.icou.controller.dto.request.TextCreateRequestDto;
+import com.youhogeon.icou.controller.dto.response.TextCreateResponseDto;
+import com.youhogeon.icou.controller.dto.response.TextResponseDto;
 import com.youhogeon.icou.domain.Account;
 import com.youhogeon.icou.domain.Resource;
 import com.youhogeon.icou.domain.ResourceType;
-import com.youhogeon.icou.dto.TextCreateRequestDto;
-import com.youhogeon.icou.dto.TextCreateResponseDto;
-import com.youhogeon.icou.dto.TextResponseDto;
 import com.youhogeon.icou.error.BusinessException;
 import com.youhogeon.icou.error.ErrorCode;
 import com.youhogeon.icou.repository.AccountRepository;
