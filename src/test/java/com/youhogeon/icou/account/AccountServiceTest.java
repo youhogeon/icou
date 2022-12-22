@@ -2,14 +2,10 @@ package com.youhogeon.icou.account;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +16,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.youhogeon.icou.controller.dto.request.AccountCreateRequestDto;
-import com.youhogeon.icou.controller.dto.request.AccountSigninRequestDto;
 import com.youhogeon.icou.domain.Account;
 import com.youhogeon.icou.error.BusinessException;
 import com.youhogeon.icou.repository.AccountRepository;
