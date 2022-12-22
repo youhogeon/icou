@@ -28,8 +28,7 @@ class AccountControllerTest {
     AccountRepository accountRepository;
 
     @Test
-    @DisplayName("회원가입 테스트")
-    void createAccount() throws Exception {
+    void 회원가입_성공() throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/auth/signup")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"email\":\"test@test.com\", \"password\":\"test\", \"nickname\":\"test\"}");
@@ -39,8 +38,7 @@ class AccountControllerTest {
     }
 
     @Test
-    @DisplayName("회원가입 시 이메일 형식 오류")
-    void invalidEmailOnCreate() throws Exception {
+    void 회원가입_실패_이메일형식() throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/auth/signup")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"email\":\"testtest.com\", \"password\":\"test\", \"nickname\":\"안녕안녕반가워반가워\"}");
@@ -51,8 +49,7 @@ class AccountControllerTest {
     }
 
     @Test
-    @DisplayName("회원가입 시 비밀번호 형식 오류")
-    void invalidPasswordOnCreate() throws Exception {
+    void 회원가입_실패_비밀번호길이() throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/auth/signup")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"email\":\"test@test.com\", \"password\":\"t\", \"nickname\":\"test\"}");
@@ -63,8 +60,7 @@ class AccountControllerTest {
     }
 
     @Test
-    @DisplayName("회원가입 시 닉네임 형식 오류")
-    void invalidNicknameOnCreate() throws Exception {
+    void 회원가입_실패_닉네임길이() throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/auth/signup")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"email\":\"test@test.com\", \"password\":\"test\", \"nickname\":\"안녕안녕반가워진짜반가워\"}");
