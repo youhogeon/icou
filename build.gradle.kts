@@ -6,7 +6,7 @@ plugins {
 
 group = "com.youhogeon"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_19
 
 configurations {
 	compileOnly {
